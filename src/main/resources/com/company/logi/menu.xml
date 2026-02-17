@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu opened="true" id="application" title="msg://com.company.logi/menu.application.title">
+        <item view="User.list" title="msg://com.company.logi.view.user/UserListView.title"/>
+        <item view="Shipment.list" title="msg://com.company.logi.view.shipment/shipmentListView.title"/>
+        <item view="Product.list" title="msg://com.company.logi.view.product/productListView.title"/>
+        <item view="Storage.list" title="msg://com.company.logi.view.storage/storageListView.title"/>
+        <item view="CompanyUnit.list" title="msg://com.company.logi.view.companyunit/companyUnitListView.title"/>
+        <item view="Transport.list" title="msg://com.company.logi.view.transport/transportListView.title"/>
+    </menu>
+</menu-config>

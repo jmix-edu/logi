@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://companyUnitListView.title"
+      focusComponent="companyUnitsDataGrid">
+    <data>
+        <collection id="companyUnitsDc"
+                    class="com.company.logi.entity.CompanyUnit">
+            <fetchPlan extends="_base">
+                <property name="manager" fetchPlan="_instance_name"/>
+            </fetchPlan>
+            <loader id="companyUnitsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from CompanyUnit e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <propertyFilter component="nameFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="companyUnitsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <propertyFilter id="nameFilter"
+                dataLoader="companyUnitsDl"
+                operation="CONTAINS"
+                property="name" labelVisible="false">
+            <textField id="nameFilterField"
+                       placeholder="msg://nameFilterField.placeholder"
+                       clearButtonVisible="true">
+                <prefix>
+                    <icon icon="SEARCH"/>
+                </prefix>
+            </textField>
+        </propertyFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <startSlot>
+                <button id="editButton" action="companyUnitsDataGrid.editAction"/>
+                <button id="createButton" action="companyUnitsDataGrid.createAction"/>
+                <button id="removeButton" action="companyUnitsDataGrid.removeAction"/>
+            </startSlot>
+            <endSlot>
+                <simplePagination id="pagination" dataLoader="companyUnitsDl"/>
+            </endSlot>
+        </hbox>
+        <dataGrid id="companyUnitsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="companyUnitsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="createAction" type="list_create"/>
+                <action id="editAction" type="list_edit"/>
+                <action id="removeAction" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="name"/>
+                <column property="region"/>
+                <column property="manager"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

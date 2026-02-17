@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://companyUnitDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="companyUnitDc"
+                  class="com.company.logi.entity.CompanyUnit">
+            <fetchPlan extends="_base">
+                <property name="manager" fetchPlan="_instance_name"/>
+                <property name="fillers" fetchPlan="_base"/>
+                <property name="storages" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="companyUnitDl"/>
+        </instance>
+        <collection id="fillersDc" class="com.company.logi.entity.User">
+            <loader id="fillersDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from User e where e.companyUnit = :container_companyUnitDc]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+        <collection id="storagesDc" class="com.company.logi.entity.Storage">
+            <loader id="storagesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Storage e where e.companyUnit = :container_companyUnitDc]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveCloseAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="companyUnitDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="regionField" property="region"/>
+            <textField id="nameField" property="name"/>
+            <entityPicker id="managerField" property="manager">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <h3 text="msg://com.company.logi.entity/CompanyUnit.storages"/>
+        <hbox id="storagesButtonsPanel">
+            <button id="createBtn" action="storagesDataGrid.create"/>
+            <button id="editBtn" action="storagesDataGrid.edit"/>
+            <button id="removeBtn" action="storagesDataGrid.remove"/>
+        </hbox>
+        <dataGrid id="storagesDataGrid" dataContainer="storagesDc" minWidth="100px" width="100%">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="name"/>
+                <column property="code"/>
+                <column property="longitude"/>
+                <column property="latitude"/>
+                <column property="operations"/>
+                <column property="address"/>
+            </columns>
+        </dataGrid>
+        <h3 text="msg://com.company.logi.entity/CompanyUnit.fillers"/>
+        <hbox id="fillersButtonsPanel">
+            <button id="addBtn" action="fillersDataGrid.add"/>
+            <button id="excludeBtn" action="fillersDataGrid.exclude"/>
+        </hbox>
+        <dataGrid id="fillersDataGrid" dataContainer="fillersDc" minWidth="100px" width="100%">
+            <actions>
+                <action id="add" type="list_add"/>
+                <action id="exclude" type="list_exclude"/>
+            </actions>
+            <columns>
+                <column property="firstName"/>
+                <column property="lastName"/>
+                <column property="username"/>
+                <column property="password"/>
+                <column property="email"/>
+                <column property="active"/>
+                <column property="timeZoneId"/>
+            </columns>
+        </dataGrid>
+
+        <hbox id="detailActions">
+
+            <button id="saveAndCloseButton" action="saveCloseAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

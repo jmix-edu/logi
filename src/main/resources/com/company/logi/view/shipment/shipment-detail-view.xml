@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://shipmentDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="shipmentDc"
+                  class="com.company.logi.entity.Shipment">
+            <fetchPlan extends="_base">
+                <property name="product" fetchPlan="_instance_name"/>
+                <property name="originStorage" fetchPlan="_instance_name"/>
+                <property name="destinationStorage" fetchPlan="_instance_name"/>
+                <property name="fillings" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="shipmentDl"/>
+            <collection id="fillingsDc" property="fillings"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveCloseAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="shipmentDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <dateTimePicker id="shipmentDateField" property="shipmentDate"/>
+            <textField id="volumeField" property="volume"/>
+            <entityPicker id="productField" property="product">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="originStorageField" property="originStorage">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <entityPicker id="destinationStorageField" property="destinationStorage">
+                <actions>
+                    <action id="entityLookupAction" type="entity_lookup"/>
+                    <action id="entityClearAction" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+        </formLayout>
+        <h4 text="msg://com.company.logi.entity/Shipment.fillings"/>
+        <hbox id="fillingsButtonsPanel" classNames="buttons-panel">
+            <button action="fillingsDataGrid.createAction"/>
+            <button action="fillingsDataGrid.editAction"/>
+            <button action="fillingsDataGrid.removeAction"/>
+        </hbox>
+        <dataGrid id="fillingsDataGrid" dataContainer="fillingsDc" width="100%" minHeight="20em">
+            <actions>
+                <action id="createAction" type="list_create">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="editAction" type="list_edit">
+                    <properties>
+                        <property name="openMode" value="DIALOG"/>
+                    </properties>
+                </action>
+                <action id="removeAction" type="list_remove"/>
+            </actions>
+            <columns>
+                <column property="fillingDate"/>
+                <column property="volume"/>
+                <column property="weight"/>
+            </columns>
+        </dataGrid>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveCloseAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

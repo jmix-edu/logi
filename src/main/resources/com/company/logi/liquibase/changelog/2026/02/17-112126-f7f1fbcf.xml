@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="logi">
+        <createTable tableName="COMPANY_UNIT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_COMPANY_UNIT"/>
+            </column>
+            <column name="REGION" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MANAGER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="logi">
+        <createTable tableName="FILLING">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_FILLING"/>
+            </column>
+            <column name="TRANSPORT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRODUCT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FILLING_DATE" type="${offsetDateTime.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VOLUME" type="DOUBLE"/>
+            <column name="FILLER_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="WEIGHT" type="VARCHAR(255)"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHIPMENT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="logi">
+        <createTable tableName="PRODUCT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PRODUCT"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="PRODUCER_NAME" type="VARCHAR(255)"/>
+            <column name="PRODUCER_CODE" type="VARCHAR(255)"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="logi">
+        <createTable tableName="SHIPMENT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_SHIPMENT"/>
+            </column>
+            <column name="SHIPMENT_DATE" type="${offsetDateTime.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VOLUME" type="DECIMAL(19, 2)"/>
+            <column name="PRODUCT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ORIGIN_STORAGE_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESTINATION_STORAGE_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="5" author="logi">
+        <createTable tableName="STORAGE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STORAGE"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="LONGITUDE" type="VARCHAR(255)"/>
+            <column name="LATITUDE" type="VARCHAR(255)"/>
+            <column name="OPERATIONS" type="VARCHAR(255)"/>
+            <column name="ADDRESS" type="CLOB"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COMPANY_UNIT_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="logi">
+        <createTable tableName="TRANSPORT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TRANSPORT"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)"/>
+            <column name="OWNER_NAWME" type="VARCHAR(255)"/>
+            <column name="MODEL" type="VARCHAR(255)"/>
+            <column name="CAPACITY" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IS_FILLED" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TARE_WEIGHT" type="DOUBLE"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="7" author="logi">
+        <addColumn tableName="USER_">
+            <column name="COMPANY_UNIT_ID" type="UUID"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="8" author="logi">
+        <addUniqueConstraint columnNames="NAME" constraintName="IDX_PRODUCT_UNQ_NAME" tableName="PRODUCT"/>
+    </changeSet>
+    <changeSet id="9" author="logi">
+        <createIndex indexName="IDX_COMPANY_UNIT_MANAGER" tableName="COMPANY_UNIT">
+            <column name="MANAGER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="MANAGER_ID" baseTableName="COMPANY_UNIT"
+                                 constraintName="FK_COMPANY_UNIT_ON_MANAGER" referencedColumnNames="ID"
+                                 referencedTableName="USER_"/>
+    </changeSet>
+    <changeSet id="10" author="logi">
+        <createIndex indexName="IDX_FILLING_FILLER" tableName="FILLING">
+            <column name="FILLER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="FILLER_ID" baseTableName="FILLING"
+                                 constraintName="FK_FILLING_ON_FILLER" referencedColumnNames="ID"
+                                 referencedTableName="USER_"/>
+    </changeSet>
+    <changeSet id="11" author="logi">
+        <createIndex indexName="IDX_FILLING_PRODUCT" tableName="FILLING">
+            <column name="PRODUCT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="FILLING"
+                                 constraintName="FK_FILLING_ON_PRODUCT" referencedColumnNames="ID"
+                                 referencedTableName="PRODUCT"/>
+    </changeSet>
+    <changeSet id="12" author="logi">
+        <createIndex indexName="IDX_FILLING_SHIPMENT" tableName="FILLING">
+            <column name="SHIPMENT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="SHIPMENT_ID" baseTableName="FILLING"
+                                 constraintName="FK_FILLING_ON_SHIPMENT" onDelete="CASCADE" referencedColumnNames="ID"
+                                 referencedTableName="SHIPMENT"/>
+    </changeSet>
+    <changeSet id="13" author="logi">
+        <createIndex indexName="IDX_FILLING_TRANSPORT" tableName="FILLING">
+            <column name="TRANSPORT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="TRANSPORT_ID" baseTableName="FILLING"
+                                 constraintName="FK_FILLING_ON_TRANSPORT" referencedColumnNames="ID"
+                                 referencedTableName="TRANSPORT"/>
+    </changeSet>
+    <changeSet id="14" author="logi">
+        <createIndex indexName="IDX_SHIPMENT_DESTINATION_STORAGE" tableName="SHIPMENT">
+            <column name="DESTINATION_STORAGE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="DESTINATION_STORAGE_ID" baseTableName="SHIPMENT"
+                                 constraintName="FK_SHIPMENT_ON_DESTINATION_STORAGE" referencedColumnNames="ID"
+                                 referencedTableName="STORAGE"/>
+    </changeSet>
+    <changeSet id="15" author="logi">
+        <createIndex indexName="IDX_SHIPMENT_ORIGIN_STORAGE" tableName="SHIPMENT">
+            <column name="ORIGIN_STORAGE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="ORIGIN_STORAGE_ID" baseTableName="SHIPMENT"
+                                 constraintName="FK_SHIPMENT_ON_ORIGIN_STORAGE" referencedColumnNames="ID"
+                                 referencedTableName="STORAGE"/>
+    </changeSet>
+    <changeSet id="16" author="logi">
+        <createIndex indexName="IDX_SHIPMENT_PRODUCT" tableName="SHIPMENT">
+            <column name="PRODUCT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="SHIPMENT"
+                                 constraintName="FK_SHIPMENT_ON_PRODUCT" referencedColumnNames="ID"
+                                 referencedTableName="PRODUCT"/>
+    </changeSet>
+    <changeSet id="17" author="logi">
+        <createIndex indexName="IDX_STORAGE_COMPANY_UNIT" tableName="STORAGE">
+            <column name="COMPANY_UNIT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="COMPANY_UNIT_ID" baseTableName="STORAGE"
+                                 constraintName="FK_STORAGE_ON_COMPANY_UNIT" referencedColumnNames="ID"
+                                 referencedTableName="COMPANY_UNIT"/>
+    </changeSet>
+    <changeSet id="18" author="logi">
+        <createIndex indexName="IDX_USER__COMPANY_UNIT" tableName="USER_">
+            <column name="COMPANY_UNIT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="COMPANY_UNIT_ID" baseTableName="USER_"
+                                 constraintName="FK_USER__ON_COMPANY_UNIT" referencedColumnNames="ID"
+                                 referencedTableName="COMPANY_UNIT"/>
+    </changeSet>
+</databaseChangeLog>
