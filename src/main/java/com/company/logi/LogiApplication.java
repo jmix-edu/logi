@@ -1,10 +1,12 @@
 package com.company.logi;
 
+import com.company.logi.app.CompanyUnitReportGenerator;
 import com.google.common.base.Strings;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
+import org.quartz.*;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -53,4 +55,22 @@ public class LogiApplication implements AppShellConfigurator {
                 + environment.getProperty("local.server.port")
                 + Strings.nullToEmpty(environment.getProperty("server.servlet.context-path")));
     }
+
+    @Bean
+    JobDetail reportRunerBeanJob() {
+        return JobBuilder.newJob(CompanyUnitReportGenerator.class)
+                .withIdentity("cuJobBean")
+                .storeDurably().build();
+    }
+
+    @Bean
+    Trigger reportRunerBeanTrigger() {
+        return TriggerBuilder.newTrigger()
+                .withIdentity("cuJobBeanTrigger")
+                .forJob(reportRunerBeanJob())
+                .startNow()
+                .withSchedule(CronScheduleBuilder.cronSchedule("0 0 * * * ?"))  // every minute at 00
+                .build();
+    }
+
 }

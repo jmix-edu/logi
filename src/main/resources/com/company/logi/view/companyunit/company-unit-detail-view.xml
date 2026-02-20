@@ -66,8 +66,6 @@
             <columns>
                 <column property="name"/>
                 <column property="code"/>
-                <column property="longitude"/>
-                <column property="latitude"/>
                 <column property="operations"/>
                 <column property="address"/>
             </columns>

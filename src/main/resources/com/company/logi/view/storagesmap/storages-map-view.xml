@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view" xmlns:maps="http://jmix.io/schema/maps/ui"
+      title="msg://storagesMapView.title">
+    <data>
+        <collection id="storagesDc" class="com.company.logi.entity.Storage">
+            <loader id="storagesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Storage e]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <maps:geoMap id="map" width="100%" height="100%">
+            <maps:layers>
+                <maps:tile id="mapLayer">
+                    <maps:osmSource/>
+                </maps:tile>
+                <maps:vector id="vectorLayer">
+                    <maps:dataVectorSource id="source"
+                                           dataContainer="storagesDc"
+                                           property="location"/>
+                </maps:vector>
+            </maps:layers>
+        </maps:geoMap>
+
+    </layout>
+</view>

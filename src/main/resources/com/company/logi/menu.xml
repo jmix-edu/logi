@@ -8,5 +8,6 @@
         <item view="Storage.list" title="msg://com.company.logi.view.storage/storageListView.title"/>
         <item view="CompanyUnit.list" title="msg://com.company.logi.view.companyunit/companyUnitListView.title"/>
         <item view="Transport.list" title="msg://com.company.logi.view.transport/transportListView.title"/>
+        <item view="StoragesMapView" title="msg://com.company.logi.view.storagesmap/storagesMapView.title"/>
     </menu>
 </menu-config>

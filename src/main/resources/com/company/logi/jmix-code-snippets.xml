@@ -1,0 +1,18 @@
+<jmixCodeSnippets xmlns="http://jmix.io/schema/core/code-snippets">
+    <category name="Application">
+        <codeSnippet name="Show stretched warning notification" contextTypes="controller">
+            <inject variable="notifications" classQualifiedName="io.jmix.flowui.Notifications"/>
+            <text language="java">
+                notifications.create("${caption}", "${description}")
+                .withType(Notifications.Type.WARNING)
+                .withPosition(Notification.Position.BOTTOM_STRETCH)
+                .show();
+            </text>
+            <description>
+                Show stretched warning notification
+            </description>
+            <stringInputParameter code="caption" text="Notification caption"/>
+            <stringInputParameter code="description" text="Notification description"/>
+        </codeSnippet>
+    </category>
+</jmixCodeSnippets>

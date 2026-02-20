@@ -26,8 +26,6 @@
             </responsiveSteps>
             <textField id="nameField" property="name"/>
             <textField id="codeField" property="code"/>
-            <textField id="longitudeField" property="longitude"/>
-            <textField id="latitudeField" property="latitude"/>
             <textField id="operationsField" property="operations"/>
             <textArea id="addressField" height="9.5em" property="address"/>
             <entityPicker id="companyUnitField" property="companyUnit">
@@ -36,6 +34,13 @@
                     <action id="entityClearAction" type="entity_clear"/>
                 </actions>
             </entityPicker>
+            <textField id="locationField" property="location">
+                <suffix>
+                    <button id="locationLookupBtn"
+                            icon="MAP_MARKER"
+                            classNames="text-success"/>
+                </suffix>
+            </textField>
         </formLayout>
         <hbox id="detailActions">
             <button id="saveAndCloseButton" action="saveCloseAction"/>

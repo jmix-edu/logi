@@ -37,6 +37,7 @@
                 <button id="createButton" action="storagesDataGrid.createAction"/>
                 <button id="editButton" action="storagesDataGrid.editAction"/>
                 <button id="removeButton" action="storagesDataGrid.removeAction"/>
+                <button id="showOnMapButton" action="storagesDataGrid.showOnMap"/>
             </startSlot>
             <endSlot>
                 <simplePagination id="pagination" dataLoader="storagesDl"/>
@@ -51,15 +52,15 @@
                 <action id="createAction" type="list_create"/>
                 <action id="editAction" type="list_edit"/>
                 <action id="removeAction" type="list_remove"/>
+                <action id="showOnMap" type="list_itemTracking" text="msg://actions.showOnMap.text"/>
             </actions>
             <columns resizable="true">
                 <column property="name"/>
                 <column property="code"/>
-                <column property="longitude"/>
-                <column property="latitude"/>
                 <column property="operations"/>
                 <column property="address"/>
                 <column property="companyUnit"/>
+                <column property="location"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view" xmlns:maps="http://jmix.io/schema/maps/ui"
+      title="msg://storageLocationView.title">
+    <data>
+        <instance id="storageDc" class="com.company.logi.entity.Storage">
+            <loader id="storageDl"/>
+            <fetchPlan extends="_base"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="closeAction"
+                type="view_close"
+                icon="CHECK"/>
+    </actions>
+    <layout>
+        <textField id="locationField" dataContainer="storageDc" property="location" minWidth="40em"/>
+        <maps:geoMap id="map" width="100%" height="100%">
+            <maps:layers>
+                <maps:tile>
+                    <maps:osmSource/>
+                </maps:tile>
+                <maps:vector>
+                    <maps:dataVectorSource dataContainer="storageDc" property="location"/>
+                </maps:vector>
+            </maps:layers>
+        </maps:geoMap>
+        <button id="closeBtn" action="closeAction"/>
+    </layout>
+</view>

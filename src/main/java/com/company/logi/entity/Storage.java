@@ -5,6 +5,7 @@ import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.locationtech.jts.geom.Point;
 
 import java.util.UUID;
 
@@ -27,11 +28,8 @@ public class Storage {
     @Column(name = "CODE")
     private String code;
 
-    @Column(name = "LONGITUDE")
-    private String longitude;
-
-    @Column(name = "LATITUDE")
-    private String latitude;
+    @Column(name = "LOCATION")
+    private Point location;
 
     @Column(name = "OPERATIONS")
     private String operations;
@@ -47,6 +45,14 @@ public class Storage {
     @JoinColumn(name = "COMPANY_UNIT_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private CompanyUnit companyUnit;
+
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
 
     public CompanyUnit getCompanyUnit() {
         return companyUnit;
@@ -70,22 +76,6 @@ public class Storage {
 
     public void setOperations(String operations) {
         this.operations = operations;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
     }
 
     public String getCode() {

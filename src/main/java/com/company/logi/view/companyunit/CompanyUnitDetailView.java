@@ -5,10 +5,12 @@ import com.company.logi.entity.CompanyUnit;
 import com.company.logi.entity.User;
 import com.company.logi.view.main.MainView;
 
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.CurrentAuthentication;
 import io.jmix.flowui.DialogWindows;
+import io.jmix.flowui.Notifications;
 import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.model.CollectionContainer;
@@ -33,6 +35,8 @@ public class CompanyUnitDetailView extends StandardDetailView<CompanyUnit> {
     private DataContext dataContext;
     @ViewComponent
     private CollectionContainer<User> fillersDc;
+    @Autowired
+    private Notifications notifications;
 
     @Subscribe
     public void onInitEntity(final InitEntityEvent<CompanyUnit> event) {
@@ -51,6 +55,11 @@ public class CompanyUnitDetailView extends StandardDetailView<CompanyUnit> {
                     }
                 })
                 .open();
+
+        notifications.create("Something wrong", "description")
+                .withType(Notifications.Type.WARNING)
+                .withPosition(Notification.Position.BOTTOM_STRETCH)
+                .show();
     }
 
     @Subscribe("fillersDataGrid.exclude")
