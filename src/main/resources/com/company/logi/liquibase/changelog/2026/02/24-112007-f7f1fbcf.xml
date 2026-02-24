@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="logi">
+        <createTable tableName="STORED_PRODUCT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STORED_PRODUCT"/>
+            </column>
+            <column name="PRODUCT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AMOUNT" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STORAGE_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="logi">
+        <createIndex indexName="IDX_STORED_PRODUCT_PRODUCT" tableName="STORED_PRODUCT">
+            <column name="PRODUCT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="STORED_PRODUCT"
+                                 constraintName="FK_STORED_PRODUCT_ON_PRODUCT" referencedColumnNames="ID"
+                                 referencedTableName="PRODUCT"/>
+    </changeSet>
+    <changeSet id="3" author="logi">
+        <createIndex indexName="IDX_STORED_PRODUCT_STORAGE" tableName="STORED_PRODUCT">
+            <column name="STORAGE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="STORAGE_ID" baseTableName="STORED_PRODUCT"
+                                 constraintName="FK_STORED_PRODUCT_ON_STORAGE" onDelete="CASCADE"
+                                 referencedColumnNames="ID" referencedTableName="STORAGE"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,12 +1,14 @@
 package com.company.logi.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.locationtech.jts.geom.Point;
 
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -38,6 +40,10 @@ public class Storage {
     @Lob
     private String address;
 
+    @Composition
+    @OneToMany(mappedBy = "storage")
+    private List<StoredProduct> storedProducts;
+
     @Column(name = "VERSION", nullable = false)
     @Version
     private Integer version;
@@ -45,6 +51,14 @@ public class Storage {
     @JoinColumn(name = "COMPANY_UNIT_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private CompanyUnit companyUnit;
+
+    public List<StoredProduct> getStoredProducts() {
+        return storedProducts;
+    }
+
+    public void setStoredProducts(List<StoredProduct> storedProducts) {
+        this.storedProducts = storedProducts;
+    }
 
     public Point getLocation() {
         return location;

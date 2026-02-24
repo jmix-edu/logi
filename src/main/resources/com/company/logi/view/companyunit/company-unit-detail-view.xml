@@ -26,7 +26,9 @@
                     <![CDATA[select e from Storage e where e.companyUnit = :container_companyUnitDc]]>
                 </query>
             </loader>
-            <fetchPlan extends="_base"/>
+            <fetchPlan extends="_base">
+                <property name="storedProducts" fetchPlan="_base"/>
+            </fetchPlan>
         </collection>
     </data>
     <facets>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://provideResponseForm.title">
+    <layout>
+        <formLayout>
+            <textField datatype="string" id="messageField" label="msg://provideResponseForm.variable.message"/>
+        </formLayout>
+        <hbox id="actionsPanel">
+            <button id="providedBtn" icon="THUMBS_UP" text="msg://provideResponseForm.outcome.provided"
+                    themeNames="primary"/>
+            <button id="notNowBtn" icon="THUMBS_DOWN" text="msg://provideResponseForm.outcome.not-now" themeNames="error"/>
+        </hbox>
+    </layout>
+</view>

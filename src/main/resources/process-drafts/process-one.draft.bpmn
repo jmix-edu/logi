@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:jmix="http://jmix.io/schema/bpm/bpmn" xmlns:flowable="http://flowable.org/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.flowable.org/processdef">
+  <process id="process-one" name="Simple process with forms" isExecutable="true">
+    <startEvent id="startEvent1" name="Start">
+      <extensionElements>
+        <jmix:processVariables>
+          <jmix:processVariable name="assignee" type="entity">
+            <jmix:processVariableProperty name="entityName" value="User" />
+          </jmix:processVariable>
+          <jmix:processVariable name="message" type="string" />
+        </jmix:processVariables>
+        <jmix:formData type="input-dialog" openMode="DIALOG" businessKeySource="PROCESS_VARIABLE">
+          <jmix:formFields>
+            <jmix:formField id="assignee" caption="Assignee" type="entity" editable="true" required="true">
+              <jmix:formFieldProperty name="entityName" value="User" />
+              <jmix:formFieldProperty name="uiComponent" value="entityPicker" />
+            </jmix:formField>
+            <jmix:formField id="message" caption="Message" type="string" editable="true" required="true" />
+          </jmix:formFields>
+        </jmix:formData>
+      </extensionElements>
+      <outgoing>Flow_1tsy8f5</outgoing>
+    </startEvent>
+    <sequenceFlow id="Flow_1tsy8f5" sourceRef="startEvent1" targetRef="Activity_07gpl2k" />
+    <endEvent id="Event_1vuo0jn">
+      <incoming>Flow_0314hpw</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_1ico7xv" sourceRef="Activity_07gpl2k" targetRef="Gateway_0tgupb7" />
+    <userTask id="Activity_07gpl2k" name="Provide a response" flowable:assignee="${assignee.username}" jmix:assigneeSource="processVariable" jmix:assigneeValue="assignee">
+      <extensionElements>
+        <jmix:formData type="jmix-screen" openMode="DIALOG" screenId="ProvideResponseForm">
+          <jmix:formParams>
+            <jmix:formParam name="Message" value="message" valueSource="processVariable" />
+          </jmix:formParams>
+          <jmix:formOutcomes>
+            <jmix:formOutcome id="provided" caption="Provided" icon="THUMBS_UP" />
+            <jmix:formOutcome id="not-now" caption="Not now" icon="THUMBS_DOWN" />
+          </jmix:formOutcomes>
+        </jmix:formData>
+      </extensionElements>
+      <incoming>Flow_1tsy8f5</incoming>
+      <outgoing>Flow_1ico7xv</outgoing>
+    </userTask>
+    <sequenceFlow id="Flow_0314hpw" sourceRef="Activity_0b4gpll" targetRef="Event_1vuo0jn" />
+    <exclusiveGateway id="Gateway_0tgupb7" default="Flow_0d0cuyj">
+      <incoming>Flow_1ico7xv</incoming>
+      <outgoing>Flow_0d0cuyj</outgoing>
+      <outgoing>Flow_0l5cych</outgoing>
+    </exclusiveGateway>
+    <sequenceFlow id="Flow_0d0cuyj" sourceRef="Gateway_0tgupb7" targetRef="Activity_0b4gpll">
+      <extensionElements>
+        <jmix:conditionDetails conditionSource="userTaskOutcome" conditionType="anyoneCompleted" userTaskId="Activity_07gpl2k" userTaskOutcome="provided" />
+      </extensionElements>
+    </sequenceFlow>
+    <endEvent id="Event_17ae72v">
+      <incoming>Flow_0l5cych</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_0l5cych" name="No changes from user" sourceRef="Gateway_0tgupb7" targetRef="Event_17ae72v">
+      <extensionElements>
+        <jmix:conditionDetails conditionSource="userTaskOutcome" conditionType="anyoneCompleted" userTaskId="Activity_07gpl2k" userTaskOutcome="not-now" />
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression">${execution.getVariable('Activity_07gpl2k_result') != null &amp;&amp; bpm_UserTaskResults.containsOutcome(execution.getVariable('Activity_07gpl2k_result'), 'not-now')}</conditionExpression>
+    </sequenceFlow>
+    <serviceTask id="Activity_0b4gpll" name="Print response" flowable:expression="${messagePrinter.printMessage(message)}" jmix:taskType="springBean" jmix:beanName="messagePrinter">
+      <extensionElements>
+        <jmix:springBean beanName="messagePrinter" methodName="printMessage">
+          <jmix:methodParam name="msg" type="java.lang.String" isVariable="true">message</jmix:methodParam>
+        </jmix:springBean>
+      </extensionElements>
+      <incoming>Flow_0d0cuyj</incoming>
+      <outgoing>Flow_0314hpw</outgoing>
+    </serviceTask>
+    <textAnnotation id="TextAnnotation_1qy9l6b">
+      <text>If user decides not to produce outcome</text>
+    </textAnnotation>
+    <association id="Association_1sq8oy0" sourceRef="Flow_0l5cych" targetRef="TextAnnotation_1qy9l6b" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_process">
+    <bpmndi:BPMNPlane id="BPMNPlane_process" bpmnElement="process-one">
+      <bpmndi:BPMNShape id="BPMNShape_startEvent1" bpmnElement="startEvent1">
+        <omgdc:Bounds x="150" y="150" width="30" height="30" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="153" y="187" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1vuo0jn_di" bpmnElement="Event_1vuo0jn">
+        <omgdc:Bounds x="942" y="147" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1o8q09f_di" bpmnElement="Activity_07gpl2k">
+        <omgdc:Bounds x="230" y="125" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0tgupb7_di" bpmnElement="Gateway_0tgupb7" isMarkerVisible="true">
+        <omgdc:Bounds x="405" y="140" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_17ae72v_di" bpmnElement="Event_17ae72v">
+        <omgdc:Bounds x="582" y="262" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1h3urhk_di" bpmnElement="Activity_0b4gpll">
+        <omgdc:Bounds x="660" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1qy9l6b_di" bpmnElement="TextAnnotation_1qy9l6b">
+        <omgdc:Bounds x="500" y="350" width="100" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1tsy8f5_di" bpmnElement="Flow_1tsy8f5">
+        <di:waypoint x="180" y="165" />
+        <di:waypoint x="230" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ico7xv_di" bpmnElement="Flow_1ico7xv">
+        <di:waypoint x="330" y="165" />
+        <di:waypoint x="405" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0314hpw_di" bpmnElement="Flow_0314hpw">
+        <di:waypoint x="760" y="165" />
+        <di:waypoint x="942" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0d0cuyj_di" bpmnElement="Flow_0d0cuyj">
+        <di:waypoint x="455" y="165" />
+        <di:waypoint x="660" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0l5cych_di" bpmnElement="Flow_0l5cych">
+        <di:waypoint x="430" y="190" />
+        <di:waypoint x="430" y="280" />
+        <di:waypoint x="582" y="280" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="458" y="232" width="84" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1sq8oy0_di" bpmnElement="Association_1sq8oy0">
+        <di:waypoint x="461" y="280" />
+        <di:waypoint x="534" y="350" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

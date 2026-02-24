@@ -29,6 +29,14 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.jmix.fullcalendar:jmix-fullcalendar-flowui-starter'
+
+    implementation 'io.jmix.audit:jmix-audit-flowui-starter'
+    implementation 'io.jmix.audit:jmix-audit-starter'
+
+    implementation 'io.jmix.bpm:jmix-bpm-flowui-starter'
+    implementation 'io.jmix.bpm:jmix-bpm-starter'
+
     implementation 'io.jmix.maps:jmix-maps-flowui-starter'
     implementation 'io.jmix.maps:jmix-maps-starter'
 
