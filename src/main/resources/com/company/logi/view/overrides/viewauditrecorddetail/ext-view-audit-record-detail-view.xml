@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://com.company.viewaudit.view.viewauditrecord/viewAuditRecordDetailView.title"
+      messagesGroup="com.company.viewaudit.view.viewauditrecord"
+      extends="com/company/viewaudit/view/viewauditrecord/view-audit-record-detail-view.xml">
+    <layout/>
+</view>

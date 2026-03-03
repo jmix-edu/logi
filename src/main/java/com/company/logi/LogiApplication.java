@@ -22,7 +22,7 @@ import org.springframework.core.env.Environment;
 import javax.sql.DataSource;
 
 @Push
-@Theme(value = "logi")
+@Theme(value = "logi", variant = "dark")
 @PWA(name = "Logi", shortName = "Logi", offline = false)
 @SpringBootApplication
 public class LogiApplication implements AppShellConfigurator {

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://io.jmix.securityflowui.view.resourcerole/resourceRoleModelListView.title"
+      messagesGroup="io.jmix.securityflowui.view.resourcerole"
+      extends="io/jmix/securityflowui/view/resourcerole/resource-role-model-list-view.xml">
+    <layout/>
+</view>

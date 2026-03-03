@@ -1,6 +1,7 @@
 package com.company.logi.view.main;
 
 import com.company.logi.entity.User;
+import com.company.viewaudit.annotation.IgnoreViewAudit;
 import com.google.common.base.Strings;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -21,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Route("")
 @ViewController(id = "MainView")
 @ViewDescriptor(path = "main-view.xml")
+@IgnoreViewAudit
 public class MainView extends StandardMainView {
 
     @Autowired
