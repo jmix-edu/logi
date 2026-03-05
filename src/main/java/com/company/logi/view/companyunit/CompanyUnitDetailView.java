@@ -2,6 +2,7 @@ package com.company.logi.view.companyunit;
 
 import com.company.logi.entity.CompanyUnit;
 
+import com.company.logi.entity.Storage;
 import com.company.logi.entity.User;
 import com.company.logi.view.main.MainView;
 
@@ -68,6 +69,15 @@ public class CompanyUnitDetailView extends StandardDetailView<CompanyUnit> {
         selected.setCompanyUnit(null);
         fillersDc.getMutableItems().remove(selected);
         dataManager.save(selected);
+    }
+
+    @Install(to = "storagesDataGrid.operations", subject = "partNameGenerator")
+    private String storagesDataGridOperationsPartNameGenerator(final Storage storage) {
+        if (storage.getOperations() == null) {
+            return "no_operations";
+        }
+
+        return "some";
     }
 
 

@@ -27,9 +27,16 @@ repositories {
             password = rootProject['premiumRepoPass']
         }
     }
+    maven {
+        url 'https://maven.vaadin.com/vaadin-addons'
+    }
 }
 
 dependencies {
+    implementation 'io.jmix.ldap:jmix-ldap-starter'
+
+    implementation 'org.vaadin.addons.componentfactory:vcf-pdf-viewer:5.0.0'
+
     implementation 'com.company:awesome-theme:1.0-SNAPSHOT'
 
     implementation 'com.company:view-audit-starter:0.0.3-SNAPSHOT'

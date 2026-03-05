@@ -12,5 +12,6 @@
         <item view="AdvancedTaskListView"
               title="msg://com.company.logi.view.advancedtasklist/advancedTaskListView.title"/>
         <item view="CalendarView" title="msg://com.company.logi.view.calendar/calendarView.title"/>
+        <item view="DemoView" title="msg://com.company.logi.view.demo/demoView.title"/>
     </menu>
 </menu-config>

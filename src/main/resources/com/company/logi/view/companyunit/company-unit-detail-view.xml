@@ -44,7 +44,7 @@
                 <responsiveStep minWidth="0" columns="1"/>
                 <responsiveStep minWidth="40em" columns="2"/>
             </responsiveSteps>
-            <textField id="regionField" property="region"/>
+            <textField id="regionField" property="region" classNames="bordered"/>
             <textField id="nameField" property="name"/>
             <entityPicker id="managerField" property="manager">
                 <actions>

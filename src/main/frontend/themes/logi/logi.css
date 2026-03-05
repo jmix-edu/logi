@@ -1,1 +1,4 @@
-/* Define your styles here */
+vaadin-text-field.bordered::part(input-field) {
+  background: white;
+  border: 1px solid black;
+}
